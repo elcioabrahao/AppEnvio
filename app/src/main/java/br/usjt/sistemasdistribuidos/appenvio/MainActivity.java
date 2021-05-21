@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +14,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+
+        String mensagemRecebida = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+        Toast.makeText(this,"Mensagem recebida: "+mensagemRecebida,Toast.LENGTH_LONG).show();
     }
 
     public void enviarMensagem (View v){
@@ -26,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         enviarMensagemIntent.setAction(Intent.ACTION_SEND);
 //tipo do conteúdo manipulado especificado como um MIME Type
         enviarMensagemIntent.setType("text/plain");
+
+        enviarMensagemIntent.setClassName("br.usjt.sistemasdistribuidos.apprecebimento",
+                "br.usjt.sistemasdistribuidos.apprecebimento.MainActivity");
+
+
 //mensagem vai dentro do Intent, associada à constante EXTRA_TEXT
 //para que possa ser "pega" pela Activity que receberá esse Intent
         enviarMensagemIntent.putExtra(Intent.EXTRA_TEXT, mensagem);
